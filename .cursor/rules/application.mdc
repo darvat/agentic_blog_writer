@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- the main application is in /app, it's a python project
+- use OpenAI Agents SDK, documentation: https://openai.github.io/openai-agents-python/
+- use uv as a dependency manager
+- configuration is in [config.py](mdc:app/core/config.py)
