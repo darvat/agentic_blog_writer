@@ -1,0 +1,138 @@
+{
+  "notes_by_section": [
+    {
+      "section_id": "1",
+      "findings": [
+        {
+          "source_url": "https://www.vellum.ai/llm-leaderboard",
+          "snippet": "This LLM leaderboard displays the latest public benchmark performance for SOTA model versions released after April 2024.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.evidentlyai.com/llm-guide/llm-benchmarks",
+          "snippet": "We put together database of 100+ LLM benchmarks and datasets you can use to evaluate the performance of language models.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://encord.com/blog/top-multimodal-models/",
+          "snippet": "Multimodal models are AI deep-learning models that simultaneously process different modalities, such as text, video, audio, and image, to generate outputs.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://zilliz.com/learn/top-10-best-multimodal-ai-models-you-should-know",
+          "snippet": "Multimodal models are AI systems that simultaneously process and integrate multiple data types.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.linkedin.com/pulse/understanding-reinforcement-learning-vs-anshuman-jha-agafc",
+          "snippet": "Recent breakthroughs in deep learning have demonstrated that AI can learn from vast amounts of unlabeled data. Traditionally, supervised learning has dominated ...",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://medium.com/@statistician-in-stilettos/a-survey-of-advancements-in-gen-ai-with-reinforcement-learning-how-rlhf-and-reasoning-llms-are-cf9ad5935861",
+          "snippet": "We are discovering that Reinforcement Learning can be applied with Generative AI to create more powerful self-improving AI systems.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://valerelabs.medium.com/edge-ai-the-rise-of-on-device-ai-8e6348bea620",
+          "snippet": "Edge AI refers to running machine learning algorithms directly on local devices, at the “edge” of the network, rather than sending data to a centralized server.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.extrapolate.com/blog/top-10-edge-computing-devices-2024",
+          "snippet": "This blog explores the list of the top 10 edge computing devices that engineers and developers can consider in 2024 for demanding edge AI applications.",
+          "relevance_score": null
+        }
+      ],
+      "summary": "Recent LLM developments are tracked by Vellum AI’s 2025 leaderboard and Evidently AI’s database of over 100 benchmarking datasets, showcasing scaling performance. Leading multimodal systems from Encord and Zilliz integrate text, vision, audio, and video. Breakthroughs in reinforcement learning and self-supervised learning highlight AI’s ability to learn from unlabeled data and leverage RLHF for self-improvement. On-device AI trends emphasize edge computing frameworks and hardware, with new devices enabling local inference without cloud dependency."
+    },
+    {
+      "section_id": "2",
+      "findings": [
+        {
+          "source_url": "https://www.miquido.com/blog/generative-ai-in-media-and-entertainment/",
+          "snippet": "Explore top generative AI use cases in media and entertainment, from content creation to visual effects, transforming the industry.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.computerweekly.com/feature/How-Generative-AI-is-playing-out-in-media-industry",
+          "snippet": "In response, commercial image libraries including Shutterstock and Getty Images have launched GenAI services that draw purely on their own licensed material.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.vktr.com/ai-disruption/5-ai-case-studies-in-health-care/",
+          "snippet": "AI is helping health care teams in a range of ways, from data collection and analysis to interpreting results and patient communications and scheduling.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.comarch.com/trade-and-services/loyalty-marketing/blog/ai-product-recommendation-engines/",
+          "snippet": "AI product recommendations are personalized suggestions provided to customers by AI and machine learning algorithms, tailored to their behavior and preferences.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.netguru.com/blog/generative-ai-personalized-product-recommendations",
+          "snippet": "By leveraging generative AI and AI product recommendations, businesses can create highly targeted suggestions based on customer preferences, purchase history, ...",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.computerweekly.com/feature/AI-models-explained-The-benefits-of-open-source-AI-models",
+          "snippet": "In this guide, we explore how to get started with open source AI models and go over how they support your enterprise IT strategy.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.moesif.com/blog/technical/api-development/Open-Source-AI/",
+          "snippet": "Open sourcing AI systems also makes AI more accessible in the global economy and helps achieve the democratization of AI. Historical Context. In the early days ...",
+          "relevance_score": null
+        }
+      ],
+      "summary": "Generative AI in media is reshaping content creation and VFX, with platforms like Shutterstock and Getty Images launching proprietary GenAI services. In healthcare, AI case studies show improvements in data analysis, diagnostics, and patient engagement. Personalized AI services and recommendation engines are driving targeted suggestions in retail by analyzing user behavior. Open-source AI models, as outlined by Computer Weekly and Moesif, are democratizing access and supporting enterprise strategies globally."
+    },
+    {
+      "section_id": "3",
+      "findings": [
+        {
+          "source_url": "https://www.holisticai.com/blog/mitigate-bias-ai-systems-governance",
+          "snippet": "These frameworks assist developers and organizations in making ethical decisions throughout the AI lifecycle, from conception to deployment and beyond.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://blog.lewagon.com/skills/responsible-ai-understanding-data-ethics-and-bias-mitigation/",
+          "snippet": "This article examines the key aspects of ethical AI and data usage, discussing frameworks and guiding principles that support responsible practices.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.diligent.com/resources/guides/ai-regulations-around-the-world",
+          "snippet": "AI regulations around the world are evolving. See how jurisdictions worldwide are responding to generative AI and compare their approaches.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-united-states",
+          "snippet": "Currently, there is no comprehensive federal legislation or regulations in the US that regulate the development of AI or specifically prohibit or restrict their ...",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.semi.org/en/blogs/energy-efficient-computing-systems-for-sustainable-ai",
+          "snippet": "The switch to transformer models has increased AI-driven computing demand by a factor of 50 million over 5 years, and by some projections, this demand will ...",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.semi.org/en/blogs/sustainable-ai-systems-for-energy-efficient-computing",
+          "snippet": "Advancements in foundational semiconductor technologies will have a dramatic impact on system-level energy and cost reduction in the AI datacenter.” – Gary ...",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://thequantuminsider.com/2025/05/07/study-introduces-an-ai-agent-that-automates-quantum-chemistry-tasks-from-natural-language-prompts/",
+          "snippet": "A new AI agent uses large language models to autonomously interpret natural language prompts and carry out quantum chemistry computations.",
+          "relevance_score": null
+        },
+        {
+          "source_url": "https://www.bbva.com/en/innovation/technology-trends-2025-from-quantum-computing-to-ai-agents/",
+          "snippet": "In 2025, attention is shifting to \"agentic\" AI—models and systems capable of making autonomous decisions. Gartner identifies AI agents as a key trend for the ...",
+          "relevance_score": null
+        }
+      ],
+      "summary": "Ethical AI frameworks and bias-mitigation techniques guide responsible development across the model lifecycle. Globally, regulations are emerging—jurisdictions are updating laws to govern AI, though comprehensive US federal rules remain absent. Sustainable AI initiatives focus on energy-efficient computing, leveraging advanced semiconductors to curb transformer-driven demand. Future research trends include quantum machine learning applications in chemistry and the rise of autonomous, agentic AI systems able to make independent decisions."
+    }
+  ],
+  "general_findings": null
+}
