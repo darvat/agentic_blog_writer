@@ -141,3 +141,6 @@ Thumbs.db
 # Project specific
 output/
 *.log 
+
+data/*
+foo.*

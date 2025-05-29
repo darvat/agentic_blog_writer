@@ -133,6 +133,5 @@
       ],
       "summary": "Ethical AI frameworks and bias-mitigation techniques guide responsible development across the model lifecycle. Globally, regulations are emerging—jurisdictions are updating laws to govern AI, though comprehensive US federal rules remain absent. Sustainable AI initiatives focus on energy-efficient computing, leveraging advanced semiconductors to curb transformer-driven demand. Future research trends include quantum machine learning applications in chemistry and the rise of autonomous, agentic AI systems able to make independent decisions."
     }
-  ],
-  "general_findings": null
+  ]
 }

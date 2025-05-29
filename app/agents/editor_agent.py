@@ -1,1 +1,0 @@
-# Can edit per section or whole article 

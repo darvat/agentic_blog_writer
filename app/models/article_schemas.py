@@ -26,7 +26,8 @@ class ArticlePlan(BaseModel):
 class ResearchFinding(BaseModel):
     source_url: Optional[str] = None
     snippet: str
-    relevance_score: Optional[float] = None 
+    relevance_score: Optional[float] = None
+    scraped_content: Optional[str] = None
 
 class SectionResearchNotes(BaseModel):
     section_id: str
@@ -35,25 +36,28 @@ class SectionResearchNotes(BaseModel):
 
 class ResearchNotes(BaseModel):
     notes_by_section: List[SectionResearchNotes]
-    general_findings: Optional[List[ResearchFinding]] = None 
 
-class ArticleSection(BaseModel):
-    section_id: str
+class SectionPlanWithResearch(BaseModel):
+    section_plan: SectionPlan
+    research_notes: SectionResearchNotes
+
+class SythesizedSection(BaseModel):
+    section_id: int
     title: str
     content: str
-    references: Optional[List[str]] = None
 
-class DraftArticle(BaseModel):
-    main_title: str
-    sections: List[ArticleSection]
+class SythesizedArticle(BaseModel):
+    sections: List[SythesizedSection]
     full_text_for_editing: Optional[str] = None 
-
+    
 class FinalArticle(BaseModel):
     title: str
-    introduction: Optional[str] = None 
-    body_sections: List[ArticleSection] 
-    conclusion: Optional[str] = None 
+    meta_description: str
+    meta_keywords: List[str] = []
+    image_description: str
+    table_of_contents: List[str] = []
+    tldr: str
+    article_body: str
+    conclusion: str
+    references: List[str] = []
     full_text_markdown: str
-    full_text_html: Optional[str] = None
-    meta_description: Optional[str] = None
-    citations: Optional[List[str]] = None
