@@ -2,7 +2,7 @@ from .common_imports import (
     dedent,
     config,
     Agent,
-    CustomAgentHooks,
+    QuietAgentHooks,
 )
 
 from app.models.article_schemas import ArticleBrief
@@ -16,5 +16,5 @@ agent = Agent(
     """),
     model=config.SMALL_FAST_MODEL,
     output_type=ArticleBrief,
-    hooks=CustomAgentHooks(),
+    hooks=QuietAgentHooks(),
 )

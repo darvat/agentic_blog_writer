@@ -3,7 +3,7 @@ from .common_imports import (
     dedent,
     config,
     Agent,
-    CustomAgentHooks,
+    QuietAgentHooks,
 )
 
 from app.models.article_schemas import SythesizedSection
@@ -49,5 +49,5 @@ agent = Agent(
         editor_agent.as_tool(tool_name="editor_agent", tool_description="Edit and improve the synthesized content to ensure it is perfect and professionally written."),
     ],
     output_type=SythesizedSection,
-    hooks=CustomAgentHooks(),
+    hooks=QuietAgentHooks(),
 )

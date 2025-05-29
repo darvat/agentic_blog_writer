@@ -2,7 +2,7 @@ from .common_imports import (
     dedent,
     config,
     Agent,
-    CustomAgentHooks,
+    QuietAgentHooks,
     perform_serper_web_search,
 )
 
@@ -28,5 +28,5 @@ agent = Agent(
     model=config.SMALL_REASONING_MODEL, # Or SMALL_FAST_MODEL if appropriate
     tools=[perform_serper_web_search],
     output_type=ResearchNotes,
-    hooks=CustomAgentHooks(),
+    hooks=QuietAgentHooks(),
 )

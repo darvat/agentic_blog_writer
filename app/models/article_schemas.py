@@ -61,3 +61,6 @@ class FinalArticle(BaseModel):
     conclusion: str
     references: List[str] = []
     full_text_markdown: str
+
+class FinalArticleWithGemini(BaseModel):
+    gemini_article: str

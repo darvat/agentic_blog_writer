@@ -59,8 +59,9 @@ async def perform_serper_web_search(
         'Content-Type': 'application/json'
     }
 
-    console.print(f"Performing Serper web search for: {query} (location={loc}, gl={g_lang}, hl={h_lang}, tbs={time_based_search}, num={num})")
-    console.print(100*'-')
+    # Reduced console output to prevent interference with workflow printer
+    # console.print(f"Performing Serper web search for: {query} (location={loc}, gl={g_lang}, hl={h_lang}, tbs={time_based_search}, num={num})")
+    # console.print(100*'-')
 
     try:
         async with httpx.AsyncClient() as client:

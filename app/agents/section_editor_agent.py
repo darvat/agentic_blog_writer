@@ -3,7 +3,7 @@ from .common_imports import (
     dedent,
     config,
     Agent,
-    CustomAgentHooks,
+    QuietAgentHooks,
 )
 
 from app.models.article_schemas import SythesizedSection
@@ -57,5 +57,5 @@ agent = Agent(
     """),
     model=config.SMALL_REASONING_MODEL,
     output_type=SythesizedSection,
-    hooks=CustomAgentHooks(),
+    hooks=QuietAgentHooks(),
 ) 
