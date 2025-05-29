@@ -3,6 +3,7 @@ import asyncio
 import json
 from pathlib import Path
 from slugify import slugify
+import markdown
 
 from agents import Runner, gen_trace_id, trace
 from app.agents.planner_agent import agent as planner_agent
@@ -349,7 +350,13 @@ class ArticleCreationWorkflow:
                 self.printer.update_item(phase_name, "❌ Gemini enhancement returned empty content.", is_done=True)
                 return None
 
-            gemini_article_output = FinalArticleWithGemini(gemini_article=enhanced_markdown)
+            # Convert markdown to HTML
+            enhanced_html = markdown.markdown(enhanced_markdown).replace('\n', '')
+
+            gemini_article_output = FinalArticleWithGemini(
+                gemini_article=enhanced_markdown,
+                gemini_article_html=enhanced_html
+            )
             
             self.data_manager.save_data(self.query_slug, phase_name, gemini_article_output)
             
@@ -366,5 +373,5 @@ class ArticleCreationWorkflow:
 
 
 if __name__ == "__main__":
-    workflow = ArticleCreationWorkflow("Installation von Photovoltaik im Kanton Bern, Schweiz. Wie viel kostet das und wie viel Geld kann man sparen?")
+    workflow = ArticleCreationWorkflow("Installation von Photovoltaik im Kanton Aargau, Schweiz. Wie viel kostet das und wie viel Geld kann man sparen?")
     asyncio.run(workflow.run())

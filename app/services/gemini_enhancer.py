@@ -22,6 +22,7 @@ def generate(openai_article: str):
                 You can't reduce the size only extend it.
                 You must make sure that the article is SEO optimized, engaging and interesting and written in the same language as the original article.                
                 The output should be a perfectly constructed markdown article.
+                Any references should be added to the end of the article and all references should be clickable.
                 You must only output the markdown article, no other text.
                 <original_article>
                 {openai_article}

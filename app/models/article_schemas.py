@@ -64,3 +64,4 @@ class FinalArticle(BaseModel):
 
 class FinalArticleWithGemini(BaseModel):
     gemini_article: str
+    gemini_article_html: Optional[str] = None
