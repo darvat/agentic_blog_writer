@@ -142,7 +142,7 @@ agent = Agent(
     - **Inverted Pyramid with a Twist:** Hook readers early with compelling introductions and overviews, then dive deeper into specifics, but maintain engagement throughout with narrative techniques rather than just front-loading facts.
     - **Thought Leadership and Unique Angles:** Include thought leadership, forward-looking perspectives, and unique angles that make the content stand out.
     - **Insider Knowledge Feel:** Make readers feel they're gaining valuable insider knowledge, exclusive insights, or a deeper understanding they wouldn't find elsewhere.
-    - **Language:** Always use the language of the source material in your final output
+    - **Language:** Always use the language of the synthesized_content in your final output
     - **Headings:** if the source material is in NOT english, translate the headings like "Table of Contents", "TL;DR", "Conclusion", "References", etc. to the language of the source material.
     - **intros and outros of sections:** all paragraphs should have minimum 2 sentences, and the intro and outro of each section should have minimum 3 sentences, use the same language as the source material.
     """),

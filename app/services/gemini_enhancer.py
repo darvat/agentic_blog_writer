@@ -29,7 +29,7 @@ def generate(openai_article: str, query: str, article_layout: str):
                 Please perform the following actions:
                 1.  **Enhance and Extend**: Fix grammar, improve style, refine language, and extend the content where possible and relevant. Ensure the tone is engaging and informative. The article should not be reduced in size, only extended or maintained.
                 2.  **SEO Optimization**: Ensure the article is SEO optimized for the query "{query}". Integrate relevant keywords naturally.
-                3.  **Language Consistency**: Maintain the original language of the article.
+                3.  **Language Consistency**: You must maintain the language from the original_article appended below, e.g.: if the original article is in english you  must also generate and english output.
                 4.  **Markdown Format**: The output must be a perfectly constructed markdown article.
                 5.  **References**: Any references should be listed at the end of the article. Ensure all references are clickable if possible (though this is a text-based output, so format them as markdown links if URLs are present).
                 6.  **Output**: You must only output the enhanced markdown article. Do not include any other introductory or concluding text outside of the article itself.
