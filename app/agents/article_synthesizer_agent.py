@@ -7,7 +7,6 @@ from .common_imports import (
 )
 
 from app.models.article_schemas import FinalArticle
-from app.agents.section_editor_agent import agent as editor_agent
 
 agent = Agent(
     name="Article Synthesizer Agent",
@@ -147,7 +146,7 @@ agent = Agent(
     - **Headings:** if the source material is in NOT english, translate the headings like "Table of Contents", "TL;DR", "Conclusion", "References", etc. to the language of the source material.
     - **intros and outros of sections:** all paragraphs should have minimum 2 sentences, and the intro and outro of each section should have minimum 3 sentences, use the same language as the source material.
     """),
-    model=config.SMALL_REASONING_MODEL,
+    model=config.LARGE_REASONING_MODEL,
     # tools=[
     #     editor_agent.as_tool(tool_name="editor_agent", tool_description="Edit and improve the final article to ensure it is perfect, professionally written, and fully SEO optimized."),
     # ],

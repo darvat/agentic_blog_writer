@@ -1,5 +1,6 @@
 from __future__ import annotations
 import asyncio
+from dataclasses import dataclass
 import json
 from pathlib import Path
 from slugify import slugify
@@ -17,7 +18,7 @@ from app.services.workflow_display_manager import WorkflowDisplayManager
 from app.services.workflow_data_manager import WorkflowDataManager
 from app.services.web_scraping_service import WebScrapingService
 from app.services import gemini_enhancer
-
+from app.models.workflow_schemas import ArticleCreationWorkflowConfig
 
 class ArticleCreationWorkflow:
     """
@@ -25,13 +26,13 @@ class ArticleCreationWorkflow:
     """
     DATA_DIR = Path("data")
 
-    def __init__(self, query: str) -> None:
-        self.query = query
-        self.query_slug = self._get_query_slug(self.query)
+    def __init__(self, config: ArticleCreationWorkflowConfig) -> None:
+        self.config = config
+        self.query_slug = self._get_query_slug(self.config.query)
         self.printer = Printer(console)
         
         # Initialize service components
-        self.display_manager = WorkflowDisplayManager(self.printer, self.query, self.query_slug)
+        self.display_manager = WorkflowDisplayManager(self.printer, self.config.query, self.query_slug)
         self.data_manager = WorkflowDataManager(self.DATA_DIR, self.printer)
         self.web_scraping_service = WebScrapingService()
 
@@ -109,7 +110,18 @@ class ArticleCreationWorkflow:
             # Workflow completion
             self.display_manager.display_workflow_complete()
 
+
     async def _plan_article(self) -> SectionPlans | None:
+        """
+        Generate a section plan for the article using the planner agent.
+
+        This method checks for a cached article plan for the current query. If a cached plan exists,
+        it is loaded and returned. Otherwise, it invokes the planner agent to create a new section plan
+        based on the workflow configuration. The resulting plan is saved for future use.
+
+        Returns:
+            SectionPlans | None: The generated or cached section plans, or None if planning fails.
+        """
         phase_name = "planning"
         loaded_data = self.data_manager.load_data(self.query_slug, phase_name, SectionPlans)
         if loaded_data:
@@ -118,7 +130,7 @@ class ArticleCreationWorkflow:
 
         self.printer.update_item(phase_name, "🔄 Creating new article plan...")
         try:
-            result = await Runner.run(planner_agent, self.query)
+            result = await Runner.run(planner_agent, input=self.config.query, context=self.config)
             section_plans_output = result.final_output_as(SectionPlans)
             self.data_manager.save_data(self.query_slug, phase_name, section_plans_output)
             self.printer.update_item(
@@ -144,7 +156,7 @@ class ArticleCreationWorkflow:
 
         self.printer.update_item(phase_name, f"🔄 Researching {len(section_plans.section_plans)} sections...")
         try:
-            result = await Runner.run(research_agent, section_plans.model_dump_json(), max_turns=100)
+            result = await Runner.run(research_agent, input=section_plans.model_dump_json(), max_turns=100)
             research_notes_output = result.final_output_as(ResearchNotes)
             self.data_manager.save_data(self.query_slug, phase_name, research_notes_output)
             self.printer.update_item(
@@ -311,7 +323,7 @@ class ArticleCreationWorkflow:
             
             result = await Runner.run(
                 article_synthesizer_agent, 
-                json.dumps(agent_input, indent=2)
+                input=json.dumps(agent_input, indent=2)
             )
             final_article_output = result.final_output_as(FinalArticle)
             
@@ -344,7 +356,12 @@ class ArticleCreationWorkflow:
         self.printer.update_item(phase_name, "🤖 Enhancing article with Gemini...")
         
         try:
-            enhanced_markdown = await asyncio.to_thread(gemini_enhancer.generate, final_article.full_text_markdown)
+            enhanced_markdown = await asyncio.to_thread(
+                gemini_enhancer.generate, 
+                final_article.full_text_markdown,
+                self.config.query,      # Pass query
+                self.config.article_layout # Pass article_layout
+            )
             
             if not enhanced_markdown:
                 self.printer.update_item(phase_name, "❌ Gemini enhancement returned empty content.", is_done=True)
@@ -373,5 +390,9 @@ class ArticleCreationWorkflow:
 
 
 if __name__ == "__main__":
-    workflow = ArticleCreationWorkflow("Installation von Photovoltaik im Kanton Aargau, Schweiz. Wie viel kostet das und wie viel Geld kann man sparen?")
+    config = ArticleCreationWorkflowConfig(
+        query=input("Enter the article description: "),
+        article_layout=input("Enter the article layout (leave empty for auto-generated layout): ")
+    )
+    workflow = ArticleCreationWorkflow(config)
     asyncio.run(workflow.run())

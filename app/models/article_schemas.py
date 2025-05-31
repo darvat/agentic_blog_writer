@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class ArticleBrief(BaseModel):
+    original_user_input: str
     topic: str
     keywords: Optional[List[str]] = None
     target_audience: Optional[str] = None
@@ -18,10 +19,10 @@ class SectionPlans(BaseModel):
     section_plans: List[SectionPlan]
     article_brief: ArticleBrief
 
-class ArticlePlan(BaseModel):
-    main_title_suggestion: str
-    overall_abstract: Optional[str] = None
-    sections: List[SectionPlan]
+# class ArticlePlan(BaseModel):
+#     main_title_suggestion: str
+#     overall_abstract: Optional[str] = None
+#     sections: List[SectionPlan]
 
 class ResearchFinding(BaseModel):
     source_url: Optional[str] = None

@@ -46,6 +46,8 @@ class Config:
     SMALL_FAST_MODEL: str = os.getenv("SMALL_FAST_MODEL")
     LARGE_FAST_MODEL: str = os.getenv("LARGE_FAST_MODEL")
     IMAGE_GENERATION_MODEL: str = os.getenv("IMAGE_GENERATION_MODEL")
+    GEMINI_FLASH_MODEL: str = os.getenv("GEMINI_FLASH_MODEL")
+    GEMINI_FLASH_PRO_MODEL: str = os.getenv("GEMINI_FLASH_PRO_MODEL")
     
     # Logging
     LOGGING_LEVEL: str = os.getenv("LOGGING_LEVEL")
@@ -59,7 +61,7 @@ class Config:
     @classmethod
     def validate_config(cls) -> bool:
         """Validate that required configuration is present."""
-        required_keys = ["OPENAI_API_KEY"]
+        required_keys = ["OPENAI_API_KEY", "GEMINI_API_KEY"]
         missing_keys = []
         
         for key in required_keys:
@@ -81,6 +83,8 @@ class Config:
             "large_fast": cls.LARGE_FAST_MODEL,
             "image_generation": cls.IMAGE_GENERATION_MODEL,
             "logging_level": cls.LOGGING_LEVEL,
+            "gemini_flash_model": cls.GEMINI_FLASH_MODEL,
+            "gemini_flash_pro_model": cls.GEMINI_FLASH_PRO_MODEL,
         }
 
 
