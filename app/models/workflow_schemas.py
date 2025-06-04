@@ -3,5 +3,6 @@ from typing import Optional
 
 @dataclass
 class ArticleCreationWorkflowConfig:
-    query: str
+    title: str
+    description: str
     article_layout: Optional[str] = None

@@ -28,22 +28,27 @@ class ArticleCreationWorkflow:
 
     def __init__(self, config: ArticleCreationWorkflowConfig) -> None:
         self.config = config
-        self.query_slug = self._get_query_slug(self.config.query)
+        self.title_slug = self._get_title_slug(self.config.title)
         self.printer = Printer(console)
         
         # Initialize service components
-        self.display_manager = WorkflowDisplayManager(self.printer, self.config.query, self.query_slug)
+        self.display_manager = WorkflowDisplayManager(self.printer, self.config.title, self.title_slug)
         self.data_manager = WorkflowDataManager(self.DATA_DIR, self.printer)
         self.web_scraping_service = WebScrapingService()
 
-    def _get_query_slug(self, query: str) -> str:
-        return slugify(query)
+    def _get_title_slug(self, title: str) -> str:
+        return slugify(title)
 
     async def run(self) -> None:
         trace_id = gen_trace_id()
         with trace("Article Creation Workflow Trace", trace_id=trace_id):
             # Start the workflow with clear indication
             self.display_manager.display_workflow_start(trace_id)
+
+            # Save initial configuration
+            self.printer.update_item("save_config", "💾 Saving workflow configuration...", is_done=False)
+            self.data_manager.save_data(self.title_slug, "workflow_config", self.config)
+            self.printer.update_item("save_config", "✅ Workflow configuration saved", is_done=True, hide_checkmark=True)
 
             # Phase 1: Article Planning
             self.display_manager.display_phase_start(1, "Article Planning")
@@ -115,7 +120,7 @@ class ArticleCreationWorkflow:
         """
         Generate a section plan for the article using the planner agent.
 
-        This method checks for a cached article plan for the current query. If a cached plan exists,
+        This method checks for a cached article plan for the current title. If a cached plan exists,
         it is loaded and returned. Otherwise, it invokes the planner agent to create a new section plan
         based on the workflow configuration. The resulting plan is saved for future use.
 
@@ -123,16 +128,16 @@ class ArticleCreationWorkflow:
             SectionPlans | None: The generated or cached section plans, or None if planning fails.
         """
         phase_name = "planning"
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, SectionPlans)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, SectionPlans)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached article plan", is_done=True)
             return loaded_data
 
         self.printer.update_item(phase_name, "🔄 Creating new article plan...")
         try:
-            result = await Runner.run(planner_agent, input=self.config.query, context=self.config)
+            result = await Runner.run(planner_agent, input=self.config.title, context=self.config)
             section_plans_output = result.final_output_as(SectionPlans)
-            self.data_manager.save_data(self.query_slug, phase_name, section_plans_output)
+            self.data_manager.save_data(self.title_slug, phase_name, section_plans_output)
             self.printer.update_item(
                 phase_name,
                 f"✅ Planning complete - {len(section_plans_output.section_plans)} sections created",
@@ -149,16 +154,16 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no section plan available", is_done=True)
             return None
 
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, ResearchNotes)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, ResearchNotes)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached research notes", is_done=True)
             return loaded_data
 
         self.printer.update_item(phase_name, f"🔄 Researching {len(section_plans.section_plans)} sections...")
         try:
-            result = await Runner.run(research_agent, input=section_plans.model_dump_json(), max_turns=100)
+            result = await Runner.run(research_agent, input=section_plans.model_dump_json(), context=self.config, max_turns=100)
             research_notes_output = result.final_output_as(ResearchNotes)
-            self.data_manager.save_data(self.query_slug, phase_name, research_notes_output)
+            self.data_manager.save_data(self.title_slug, phase_name, research_notes_output)
             self.printer.update_item(
                 phase_name,
                 f"✅ Research complete - {len(research_notes_output.notes_by_section)} sections researched",
@@ -176,7 +181,7 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no research notes available", is_done=True)
             return None
 
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, ResearchNotes)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, ResearchNotes)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached scraped content", is_done=True)
             return loaded_data
@@ -188,7 +193,7 @@ class ArticleCreationWorkflow:
         
         if not urls_to_scrape:
             self.printer.update_item(phase_name, "⚠️ No URLs found to scrape - using original notes", is_done=True)
-            self.data_manager.save_data(self.query_slug, phase_name, original_research_notes)
+            self.data_manager.save_data(self.title_slug, phase_name, original_research_notes)
             return original_research_notes
         
         self.printer.update_item(phase_name, f"🌐 Scraping {len(urls_to_scrape)} unique URLs...")
@@ -198,7 +203,7 @@ class ArticleCreationWorkflow:
             notes_to_augment = await self.web_scraping_service.extract_and_scrape_urls(original_research_notes)
             
             if notes_to_augment:
-                self.data_manager.save_data(self.query_slug, phase_name, notes_to_augment)
+                self.data_manager.save_data(self.title_slug, phase_name, notes_to_augment)
                 total_urls, scraped_urls, success_rate = self.web_scraping_service.get_scraping_stats(notes_to_augment)
                 self.printer.update_item(
                     phase_name,
@@ -225,7 +230,7 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - missing plans or research notes", is_done=True)
             return None
 
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, SythesizedArticle)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, SythesizedArticle)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached synthesized article", is_done=True)
             return loaded_data
@@ -279,7 +284,7 @@ class ArticleCreationWorkflow:
                 f"{s.content}" for s in synthesized_sections
             )
 
-            self.data_manager.save_data(self.query_slug, phase_name, final_article)
+            self.data_manager.save_data(self.title_slug, phase_name, final_article)
             
             success_message = f"✅ Synthesis complete - {len(synthesized_sections)} sections synthesized"
             if failed_syntheses > 0:
@@ -299,7 +304,7 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no synthesized content available", is_done=True)
             return None
 
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, FinalArticle)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, FinalArticle)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached final article", is_done=True)
             return loaded_data
@@ -323,11 +328,12 @@ class ArticleCreationWorkflow:
             
             result = await Runner.run(
                 article_synthesizer_agent, 
-                input=json.dumps(agent_input, indent=2)
+                input=json.dumps(agent_input, indent=2),
+                context=self.config
             )
             final_article_output = result.final_output_as(FinalArticle)
             
-            self.data_manager.save_data(self.query_slug, phase_name, final_article_output)
+            self.data_manager.save_data(self.title_slug, phase_name, final_article_output)
             
             reference_count = len(final_article_output.references) if final_article_output.references else 0
             self.printer.update_item(
@@ -348,7 +354,7 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no final article content available for Gemini enhancement", is_done=True)
             return None
 
-        loaded_data = self.data_manager.load_data(self.query_slug, phase_name, FinalArticleWithGemini)
+        loaded_data = self.data_manager.load_data(self.title_slug, phase_name, FinalArticleWithGemini)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached Gemini enhanced article", is_done=True)
             return loaded_data
@@ -359,7 +365,8 @@ class ArticleCreationWorkflow:
             enhanced_markdown = await asyncio.to_thread(
                 gemini_enhancer.generate, 
                 final_article.full_text_markdown,
-                self.config.query,      # Pass query
+                self.config.title,      # Pass title
+                self.config.description, # Pass description
                 self.config.article_layout # Pass article_layout
             )
             
@@ -375,7 +382,7 @@ class ArticleCreationWorkflow:
                 gemini_article_html=enhanced_html
             )
             
-            self.data_manager.save_data(self.query_slug, phase_name, gemini_article_output)
+            self.data_manager.save_data(self.title_slug, phase_name, gemini_article_output)
             
             self.printer.update_item(
                 phase_name,
@@ -389,10 +396,22 @@ class ArticleCreationWorkflow:
             return None
 
 
+def _read_multiline_input(prompt: str) -> str:
+    """Reads multiline input from the console until an empty line is entered."""
+    print(prompt)
+    lines = []
+    while True:
+        line = input()
+        if not line:
+            break
+        lines.append(line)
+    return "\n".join(lines)
+
 if __name__ == "__main__":
     config = ArticleCreationWorkflowConfig(
-        query=input("Enter the article description: "),
-        article_layout=input("Enter the article layout (leave empty for auto-generated layout): ")
+        title=input("Enter the article title: "),
+        description=_read_multiline_input("Enter the article description (end with an empty line):"),
+        article_layout=_read_multiline_input("Enter the article layout (leave empty for auto-generated layout, end with an empty line):")
     )
     workflow = ArticleCreationWorkflow(config)
     asyncio.run(workflow.run())

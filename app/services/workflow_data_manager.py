@@ -19,12 +19,12 @@ class WorkflowDataManager:
         self.printer = printer
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
-    def save_data(self, query_slug: str, phase: str, data: dict | list | Any | None) -> None:
+    def save_data(self, title_slug: str, phase: str, data: dict | list | Any | None) -> None:
         """Save workflow data to disk with proper serialization"""
         if data is None:
             return
         
-        phase_dir = self.data_dir / query_slug
+        phase_dir = self.data_dir / title_slug
         phase_dir.mkdir(parents=True, exist_ok=True)
         file_path = phase_dir / f"{phase}.json"
         
@@ -36,9 +36,9 @@ class WorkflowDataManager:
             else:
                 f.write(str(data))
 
-    def load_data(self, query_slug: str, phase: str, output_model: type[T] | None = None) -> T | dict | list | None:
+    def load_data(self, title_slug: str, phase: str, output_model: type[T] | None = None) -> T | dict | list | None:
         """Load workflow data from disk with proper deserialization"""
-        file_path = self.data_dir / query_slug / f"{phase}.json"
+        file_path = self.data_dir / title_slug / f"{phase}.json"
         
         if not file_path.exists():
             return None
@@ -78,14 +78,14 @@ class WorkflowDataManager:
             )
             return None
 
-    def has_cached_data(self, query_slug: str, phase: str) -> bool:
+    def has_cached_data(self, title_slug: str, phase: str) -> bool:
         """Check if cached data exists for a given phase"""
-        file_path = self.data_dir / query_slug / f"{phase}.json"
+        file_path = self.data_dir / title_slug / f"{phase}.json"
         return file_path.exists()
 
-    def clear_cache(self, query_slug: str, phase: str | None = None) -> None:
+    def clear_cache(self, title_slug: str, phase: str | None = None) -> None:
         """Clear cached data for a specific phase or all phases"""
-        phase_dir = self.data_dir / query_slug
+        phase_dir = self.data_dir / title_slug
         
         if not phase_dir.exists():
             return

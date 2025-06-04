@@ -4,15 +4,33 @@ from .common_imports import (
     Agent,
     QuietAgentHooks,
     perform_serper_web_search,
+    RunContextWrapper,
 )
 
 from app.models.article_schemas import ResearchNotes
+from app.models.workflow_schemas import ArticleCreationWorkflowConfig
 
-agent = Agent(
-    name="Research Agent",
-    instructions=dedent("""
-    You are a research agent. Your primary responsibility is to take a list of research queries for different sections of a blog post 
-    and find relevant information for each query. 
+def research_dynamic_instructions(
+    context: RunContextWrapper[ArticleCreationWorkflowConfig], agent: Agent[ArticleCreationWorkflowConfig]
+) -> str:
+    
+    if not context.context.article_layout:
+        article_instruction = dedent(f"""
+        You are a research agent. Your primary responsibility is to take a list of research queries for different sections of a blog post 
+        and find relevant information for each query. 
+        The title of the blog post is: {context.context.title}
+        The description of the blog post is: {context.context.description}
+        """)
+    else:
+        article_instruction = dedent(f"""
+        You are a research agent. Your primary responsibility is to take a list of research queries for different sections of a blog post 
+        and find relevant information for each query. 
+        The title of the blog post is: {context.context.title}
+        The description of the blog post is: {context.context.description}
+        The article layout is: {context.context.article_layout}
+        """)
+    return dedent(f"""
+    {article_instruction}
     
     For each section plan provided, you will:
     1. Review the `research_queries` list.
@@ -24,7 +42,11 @@ agent = Agent(
     
     Your final output should be a `ResearchNotes` object containing a list of `SectionResearchNotes`.
     Make sure to include all web search results in the final output, do not filter out any results.
-    """),
+    """)
+
+agent = Agent[ArticleCreationWorkflowConfig](
+    name="Research Agent",
+    instructions=research_dynamic_instructions,
     model=config.SMALL_REASONING_MODEL, # Or SMALL_FAST_MODEL if appropriate
     tools=[perform_serper_web_search],
     output_type=ResearchNotes,

@@ -9,16 +9,16 @@ class WorkflowDisplayManager:
     Handles all display and status printing for the article creation workflow.
     """
 
-    def __init__(self, printer: Printer, query: str, query_slug: str):
+    def __init__(self, printer: Printer, title: str, title_slug: str):
         self.printer = printer
-        self.query = query
-        self.query_slug = query_slug
+        self.title = title
+        self.title_slug = title_slug
 
     def display_workflow_start(self, trace_id: str | None = None) -> None:
         """Display workflow initialization status"""
         self.printer.update_item("workflow_start", "🚀 Starting article creation workflow", is_done=True, hide_checkmark=True)
-        self.printer.update_item("query", f"📝 Query: {self.query}", is_done=True, hide_checkmark=True)
-        self.printer.update_item("slug", f"📁 Data directory: data/{self.query_slug}", is_done=True, hide_checkmark=True)
+        self.printer.update_item("title", f"📝 Title: {self.title}", is_done=True, hide_checkmark=True)
+        self.printer.update_item("slug", f"📁 Data directory: data/{self.title_slug}", is_done=True, hide_checkmark=True)
         
         if trace_id:
             self.printer.update_item(

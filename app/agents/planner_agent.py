@@ -19,7 +19,9 @@ def planner_dynamic_instructions(
         """)
         if not context.context.article_layout
         else dedent(f"""
-            Your primary task is to design a comprehensive and well-structured plan for a blog post based on the query: \"{context.context.query}\" and the desired article layout: \n{context.context.article_layout}\n.
+            Your primary task is to design a comprehensive and well-structured plan for a blog post based on the title: "{context.context.title}", the description: "{context.context.description}" and the desired article layout: 
+{context.context.article_layout}
+.
         """)
     )
     return dedent(f"""
@@ -28,7 +30,7 @@ def planner_dynamic_instructions(
 
     Your workflow is as follows:
     1. Generate the section plans for the blog post. Each section should be:
-       - Thematically related to the overall topic: "{context.context.query}".
+       - Thematically related to the overall topic (defined by the title: "{context.context.title}" and description: "{context.context.description}").
        - Organized in a logical order and structure, fitting the article layout.
        - Designed to ensure a smooth flow from one section to the next.
        - Comprehensive, covering all key points relevant to the topic.

@@ -4,19 +4,32 @@ from .common_imports import (
     config,
     Agent,
     QuietAgentHooks,
+    RunContextWrapper,
 )
 
 from app.models.article_schemas import FinalArticle
+from app.models.workflow_schemas import ArticleCreationWorkflowConfig
 
-agent = Agent(
-    name="Article Synthesizer Agent",
-    instructions=dedent("""
+def article_synthesizer_dynamic_instructions(
+    context: RunContextWrapper[ArticleCreationWorkflowConfig], agent: Agent[ArticleCreationWorkflowConfig]
+) -> str:
+    if not context.context.article_layout:
+        article_layout_instruction = dedent(f"""
+        5. "article_layout": The article layout of the article {context.context.article_layout}
+        """)
+    else:
+        article_layout_instruction = ""
+        
+    return dedent(f"""
     You are an article synthesizer agent responsible for transforming synthesized section content into a final, cohesive, and **hyper SEO-focused, extremely engaging, and deeply informative blog article.** Your goal is to captivate readers with a talkative, narrative style while providing substantial value.
     
     INPUT FORMAT:
     You will receive a JSON input containing:
     1. "synthesized_content": The full text content from synthesized sections
     2. "source_urls": List of source URLs used in the article
+    3. "title": The title of the article {context.context.title}
+    4. "description": The description of the article {context.context.description}
+    {article_layout_instruction}
     
     OUTPUT STRUCTURE:
     You must create all components separately AND combine them into a complete markdown document:
@@ -145,7 +158,11 @@ agent = Agent(
     - **Language:** Always use the language of the synthesized_content in your final output
     - **Headings:** if the source material is in NOT english, translate the headings like "Table of Contents", "TL;DR", "Conclusion", "References", etc. to the language of the source material.
     - **intros and outros of sections:** all paragraphs should have minimum 2 sentences, and the intro and outro of each section should have minimum 3 sentences, use the same language as the source material.
-    """),
+    """)
+
+agent = Agent[ArticleCreationWorkflowConfig](
+    name="Article Synthesizer Agent",
+    instructions=article_synthesizer_dynamic_instructions,
     model=config.LARGE_REASONING_MODEL,
     # tools=[
     #     editor_agent.as_tool(tool_name="editor_agent", tool_description="Edit and improve the final article to ensure it is perfect, professionally written, and fully SEO optimized."),
