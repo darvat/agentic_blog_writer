@@ -14,7 +14,13 @@ def generate(openai_article: str, title: str, description: str, article_layout: 
     # model = config.GEMINI_FLASH_PRO_MODEL
     model = config.GEMINI_FLASH_MODEL
 
-    layout_info = f"The original article layout was: {article_layout}" if article_layout else "No specific article layout was initially provided. Use the layout from the input article"
+    layout_info = f"""
+    The original article layout was: 
+    <article_layout>
+    {article_layout}
+    </article_layout>
+    You MUST make sure to use the article layout to design the section plans. Exactly as it is, no deviations allowed from the article layout. You must use the exact section names and sub-sections as they are in the article layout.
+    """ if article_layout else "No specific article layout was initially provided. Use the layout from the input article"
 
     contents = [
         types.Content(

@@ -69,7 +69,10 @@ class WorkflowDisplayManager:
         print("="*60)
         for section_note in research_notes.notes_by_section:
             print(f"📑 Section {section_note.section_id}:")
-            print(f"   📝 Summary: {section_note.summary[:100]}{'...' if len(section_note.summary) > 100 else ''}")
+            if section_note.summary:
+                print(f"   📝 Summary: {section_note.summary[:100]}{'...' if len(section_note.summary) > 100 else ''}")
+            else:
+                print(f"   📝 Summary: No summary available")
             print(f"   📊 Findings: {len(section_note.findings)} sources found")
             for i, finding in enumerate(section_note.findings[:3], 1):  # Show first 3 findings
                 print(f"     {i}. {finding.source_url}")

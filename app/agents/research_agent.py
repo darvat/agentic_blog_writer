@@ -2,7 +2,8 @@ from .common_imports import (
     dedent,
     config,
     Agent,
-    QuietAgentHooks,
+    # QuietAgentHooks,
+    VerboseAgentHooks,
     perform_serper_web_search,
     RunContextWrapper,
 )
@@ -27,28 +28,61 @@ def research_dynamic_instructions(
         and find relevant information for each query. 
         The title of the blog post is: {context.context.title}
         The description of the blog post is: {context.context.description}
-        The article layout is: {context.context.article_layout}
+        The article layout is: 
+        <article_layout>
+        {context.context.article_layout}
+        </article_layout>
+        You MUST make sure to use the article layout to design the section plans. Exactly as it is, no deviations allowed from the article layout. You must use the exact section names and sub-sections as they are in the article layout.
         """)
     return dedent(f"""
     {article_instruction}
     
-    For each section plan provided, you will:
-    1. Review the `research_queries` list.
-    2. For each query, conduct thorough research using the available tools (web search) with a maximum of 2 search results per query.
-    3. Compile the individual findings into `SectionResearchNotes` objects, including snippets and source URLs where possible.
-    4. Group these findings into a `ResearchNotes` object for the corresponding section_id.
-    5. Provide a summary of the research for each section.
-    6. The web search parameters are decided based on the query language and the query itself (e.g.: location, language, etc.).
+    TASK: Research ALL sections provided in the input systematically.
     
-    Your final output should be a `ResearchNotes` object containing a list of `SectionResearchNotes`.
-    Make sure to include all web search results in the final output, do not filter out any results.
+    WORKFLOW:
+    1. Parse the input to get all section plans
+    2. For each section plan:
+       - Check if it has research_queries
+       - For each query, perform web search (max 3 results)
+       - Collect the search results as findings
+       - Write a brief summary
+    3. Create SectionResearchNotes for each section (use string section_id)
+    4. Return all sections in ResearchNotes format
+    
+    CRITICAL: If a section has no research_queries, still create a SectionResearchNotes entry with empty findings array and section_id.
+    
+    REQUIRED OUTPUT: Return ONLY valid JSON that exactly matches this structure:
+    
+    {{
+      "notes_by_section": [
+        {{
+          "section_id": "1",
+          "findings": [
+            {{
+              "source_url": "https://example.com",
+              "snippet": "Search result text...",
+              "relevance_score": null,
+              "scraped_content": null
+            }}
+          ],
+          "summary": "Brief summary of research"
+        }}
+      ]
+    }}
+    
+    IMPORTANT:
+    - Return valid JSON only, no extra text
+    - Include ALL sections from input
+    - Use string section_ids ("1", "2", etc.)
+    - If no findings, use empty array: "findings": []
+    - Always include summary field (can be "No research performed" if needed)
     """)
 
 agent = Agent[ArticleCreationWorkflowConfig](
     name="Research Agent",
     instructions=research_dynamic_instructions,
-    model=config.SMALL_REASONING_MODEL, # Or SMALL_FAST_MODEL if appropriate
+    model=config.LARGE_FAST_MODEL, 
     tools=[perform_serper_web_search],
     output_type=ResearchNotes,
-    hooks=QuietAgentHooks(),
+    hooks=VerboseAgentHooks(),  # Changed back from VerboseAgentHooks to QuietAgentHooks
 )

@@ -60,13 +60,15 @@ async def scrape_website_newspaper4k(url: str) -> Dict[str, Any]:
 async def scrape_website_Crawl4AI(url: str) -> Dict[str, Any]:
     """Scrapes a website using Crawl4AI.
 
-    This function uses Crawl4AI to scrape a website and return its content.
+    This function uses Crawl4AI to scrape a website and return its content,
+    limited to a maximum of 10000 words.
 
     Args:
         url: The URL of the website to scrape. 
 
     Returns:
-        A dictionary containing the raw scrape result from Crawl4AI.
+        A dictionary containing the raw scrape result from Crawl4AI, truncated
+        to a maximum of 10000 words.
     """
     console.print(f"Scraping with Crawl4AI: {url}")
     console.print(100*'-')  
@@ -76,7 +78,14 @@ async def scrape_website_Crawl4AI(url: str) -> Dict[str, Any]:
             result = await crawler.arun(
                 url=url,
             )
-            return result.markdown
+            markdown_content = result.markdown
+            if markdown_content:
+                words = markdown_content.split()
+                if len(words) > 10000:
+                    truncated_content = " ".join(words[:10000])
+                    return truncated_content
+                return markdown_content
+            return ""
     except Exception as e:
         console.print(f"[bold red]Error during Crawl4AI scrape:[/bold red] {e}")
         return ""

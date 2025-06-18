@@ -138,6 +138,12 @@ class WebScrapingService:
                             else result.markdown.raw_markdown
                         )
                         
+                        if content: # Check if content is not None or empty
+                            words = content.split()
+                            if len(words) > 10000:
+                                content = " ".join(words[:10000])
+                                print(f"  ✂️ Content truncated to 10000 words.")
+                        
                         if content and len(content.strip()) > 100:  # Ensure meaningful content
                             cleaned_content = self._clean_scraped_content(content)
                             scraped_content_map[result.url] = cleaned_content

@@ -154,22 +154,54 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no section plan available", is_done=True)
             return None
 
+
+
         loaded_data = self.data_manager.load_data(self.title_slug, phase_name, ResearchNotes)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached research notes", is_done=True)
             return loaded_data
 
-        self.printer.update_item(phase_name, f"🔄 Researching {len(section_plans.section_plans)} sections...")
+        num_sections = len(section_plans.section_plans)
+        self.printer.update_item(phase_name, f"🔄 Researching {num_sections} sections...")
+        
+        # Log section details for debugging
+        section_ids = [str(plan.section_id) for plan in section_plans.section_plans]
+        self.printer.update_item("section_debug", f"📋 Processing sections: {', '.join(section_ids)}", is_done=True, hide_checkmark=True)
+        
         try:
             result = await Runner.run(research_agent, input=section_plans.model_dump_json(), context=self.config, max_turns=100)
             research_notes_output = result.final_output_as(ResearchNotes)
+            
+            # Validate research completeness
+            researched_section_ids = [note.section_id for note in research_notes_output.notes_by_section]
+            expected_section_ids = [str(plan.section_id) for plan in section_plans.section_plans]
+            
+            missing_sections = set(expected_section_ids) - set(researched_section_ids)
+            if missing_sections:
+                self.printer.update_item("research_warning", f"⚠️ Missing research for sections: {', '.join(missing_sections)}", is_done=True, hide_checkmark=True)
+            
+            # Detailed completion report
+            sections_with_findings = sum(1 for note in research_notes_output.notes_by_section if note.findings)
+            sections_without_findings = len(research_notes_output.notes_by_section) - sections_with_findings
+            
             self.data_manager.save_data(self.title_slug, phase_name, research_notes_output)
             self.printer.update_item(
                 phase_name,
-                f"✅ Research complete - {len(research_notes_output.notes_by_section)} sections researched",
+                f"✅ Research complete - {len(research_notes_output.notes_by_section)} sections processed, {sections_with_findings} with findings, {sections_without_findings} without findings",
                 is_done=True,
             )
+            
+            if sections_without_findings > 0:
+                self.printer.update_item("research_gaps", f"⚠️ {sections_without_findings} sections have no research findings", is_done=True, hide_checkmark=True)
+            
             return research_notes_output
+        except ValueError as e:
+            if "Invalid JSON" in str(e):
+                self.printer.update_item(phase_name, f"❌ Research failed: Agent returned invalid JSON format. Error: {str(e)}", is_done=True)
+                self.printer.update_item("json_error_help", "💡 The research agent needs to return valid JSON. Try running again - agent instructions have been improved.", is_done=True, hide_checkmark=True)
+            else:
+                self.printer.update_item(phase_name, f"❌ Research failed: {str(e)}", is_done=True)
+            return None
         except Exception as e:
             self.printer.update_item(phase_name, f"❌ Research failed: {str(e)}", is_done=True)
             return None
@@ -411,7 +443,8 @@ if __name__ == "__main__":
     config = ArticleCreationWorkflowConfig(
         title=input("Enter the article title: "),
         description=_read_multiline_input("Enter the article description (end with an empty line):"),
-        article_layout=_read_multiline_input("Enter the article layout (leave empty for auto-generated layout, end with an empty line):")
+        article_layout=_read_multiline_input("Enter the article layout (leave empty for auto-generated layout, end with an empty line):"),
+        wordcount=int(input("Enter the target word count: "))
     )
     workflow = ArticleCreationWorkflow(config)
     asyncio.run(workflow.run())

@@ -44,7 +44,7 @@ agent = Agent(
     
     IMPORTANT: After you synthesize the initial content, you MUST use the editor_agent tool to review and improve the content. The editor will ensure the content is perfect, professionally written, and meets all quality standards. Only return the final edited version.
     """),
-    model=config.SMALL_REASONING_MODEL, # Or SMALL_FAST_MODEL if appropriate
+    model=config.LARGE_REASONING_MODEL, # Or SMALL_FAST_MODEL if appropriate
     tools=[
         editor_agent.as_tool(tool_name="editor_agent", tool_description="Edit and improve the synthesized content to ensure it is perfect and professionally written."),
     ],

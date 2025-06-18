@@ -20,8 +20,10 @@ def planner_dynamic_instructions(
         if not context.context.article_layout
         else dedent(f"""
             Your primary task is to design a comprehensive and well-structured plan for a blog post based on the title: "{context.context.title}", the description: "{context.context.description}" and the desired article layout: 
-{context.context.article_layout}
-.
+            <article_layout>
+            {context.context.article_layout}
+            </article_layout>
+            You MUST make sure to use the article layout to design the section plans. Exactly as it is, no deviations allowed from the article layout. You must use the exact section names and sub-sections as they are in the article layout.
         """)
     )
     return dedent(f"""
