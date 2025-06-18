@@ -11,7 +11,7 @@ from app.agents.planner_agent import agent as planner_agent
 from app.agents.research_agent import agent as research_agent
 from app.agents.section_synthesizer_agent import agent as section_synthesizer_agent
 from app.agents.article_synthesizer_agent import agent as article_synthesizer_agent
-from app.models.article_schemas import SectionPlans, ResearchNotes, SythesizedArticle, SythesizedSection, SectionPlanWithResearch, FinalArticle, FinalArticleWithGemini
+from app.models.article_schemas import SectionPlans, ResearchNotes, SythesizedArticle, SythesizedSection, SectionPlanWithResearch, FinalArticle, FinalArticleWithGemini, SectionResearchNotes
 from app.core.printer import Printer
 from app.core.console_config import console
 from app.services.workflow_display_manager import WorkflowDisplayManager
@@ -19,6 +19,7 @@ from app.services.workflow_data_manager import WorkflowDataManager
 from app.services.web_scraping_service import WebScrapingService
 from app.services import gemini_enhancer
 from app.models.workflow_schemas import ArticleCreationWorkflowConfig
+from app.core.config import config as app_config
 
 class ArticleCreationWorkflow:
     """
@@ -154,8 +155,6 @@ class ArticleCreationWorkflow:
             self.printer.update_item(phase_name, "⏭️ Skipped - no section plan available", is_done=True)
             return None
 
-
-
         loaded_data = self.data_manager.load_data(self.title_slug, phase_name, ResearchNotes)
         if loaded_data:
             self.printer.update_item(phase_name, "📁 Using cached research notes", is_done=True)
@@ -168,43 +167,131 @@ class ArticleCreationWorkflow:
         section_ids = [str(plan.section_id) for plan in section_plans.section_plans]
         self.printer.update_item("section_debug", f"📋 Processing sections: {', '.join(section_ids)}", is_done=True, hide_checkmark=True)
         
-        try:
-            result = await Runner.run(research_agent, input=section_plans.model_dump_json(), context=self.config, max_turns=100)
-            research_notes_output = result.final_output_as(ResearchNotes)
-            
-            # Validate research completeness
-            researched_section_ids = [note.section_id for note in research_notes_output.notes_by_section]
-            expected_section_ids = [str(plan.section_id) for plan in section_plans.section_plans]
-            
-            missing_sections = set(expected_section_ids) - set(researched_section_ids)
-            if missing_sections:
-                self.printer.update_item("research_warning", f"⚠️ Missing research for sections: {', '.join(missing_sections)}", is_done=True, hide_checkmark=True)
-            
-            # Detailed completion report
-            sections_with_findings = sum(1 for note in research_notes_output.notes_by_section if note.findings)
-            sections_without_findings = len(research_notes_output.notes_by_section) - sections_with_findings
-            
-            self.data_manager.save_data(self.title_slug, phase_name, research_notes_output)
-            self.printer.update_item(
-                phase_name,
-                f"✅ Research complete - {len(research_notes_output.notes_by_section)} sections processed, {sections_with_findings} with findings, {sections_without_findings} without findings",
-                is_done=True,
-            )
-            
-            if sections_without_findings > 0:
-                self.printer.update_item("research_gaps", f"⚠️ {sections_without_findings} sections have no research findings", is_done=True, hide_checkmark=True)
-            
-            return research_notes_output
-        except ValueError as e:
-            if "Invalid JSON" in str(e):
-                self.printer.update_item(phase_name, f"❌ Research failed: Agent returned invalid JSON format. Error: {str(e)}", is_done=True)
-                self.printer.update_item("json_error_help", "💡 The research agent needs to return valid JSON. Try running again - agent instructions have been improved.", is_done=True, hide_checkmark=True)
-            else:
+        if app_config.RESEARCH_STRATEGY == "batch":
+            # Original batch approach - research all sections at once
+            self.printer.update_item("research_strategy", "📚 Using batch research strategy", is_done=True, hide_checkmark=True)
+            try:
+                result = await Runner.run(research_agent, input=section_plans.model_dump_json(), context=self.config, max_turns=100)
+                research_notes_output = result.final_output_as(ResearchNotes)
+                
+                # Validate research completeness
+                researched_section_ids = [note.section_id for note in research_notes_output.notes_by_section]
+                expected_section_ids = [str(plan.section_id) for plan in section_plans.section_plans]
+                
+                missing_sections = set(expected_section_ids) - set(researched_section_ids)
+                if missing_sections:
+                    self.printer.update_item("research_warning", f"⚠️ Missing research for sections: {', '.join(missing_sections)}", is_done=True, hide_checkmark=True)
+                
+                # Detailed completion report
+                sections_with_findings = sum(1 for note in research_notes_output.notes_by_section if note.findings)
+                sections_without_findings = len(research_notes_output.notes_by_section) - sections_with_findings
+                
+                self.data_manager.save_data(self.title_slug, phase_name, research_notes_output)
+                self.printer.update_item(
+                    phase_name,
+                    f"✅ Research complete - {len(research_notes_output.notes_by_section)} sections processed, {sections_with_findings} with findings, {sections_without_findings} without findings",
+                    is_done=True,
+                )
+                
+                if sections_without_findings > 0:
+                    self.printer.update_item("research_gaps", f"⚠️ {sections_without_findings} sections have no research findings", is_done=True, hide_checkmark=True)
+                
+                return research_notes_output
+            except ValueError as e:
+                if "Invalid JSON" in str(e):
+                    self.printer.update_item(phase_name, f"❌ Research failed: Agent returned invalid JSON format. Error: {str(e)}", is_done=True)
+                    self.printer.update_item("json_error_help", "💡 The research agent needs to return valid JSON. Try running again.", is_done=True, hide_checkmark=True)
+                else:
+                    self.printer.update_item(phase_name, f"❌ Research failed: {str(e)}", is_done=True)
+                return None
+            except Exception as e:
                 self.printer.update_item(phase_name, f"❌ Research failed: {str(e)}", is_done=True)
-            return None
-        except Exception as e:
-            self.printer.update_item(phase_name, f"❌ Research failed: {str(e)}", is_done=True)
-            return None
+                return None
+        else:
+            # Individual approach - research sections one by one (default and more reliable)
+            self.printer.update_item("research_strategy", "🔍 Using individual section research strategy (recommended)", is_done=True, hide_checkmark=True)
+            
+            # Import section-specific agent for even better reliability
+            from app.agents.section_research_agent import agent as section_research_agent
+            
+            all_section_notes = []
+            sections_with_findings = 0
+            sections_without_findings = 0
+            failed_sections = []
+            
+            for i, section_plan in enumerate(section_plans.section_plans):
+                section_id_str = str(section_plan.section_id)
+                self.printer.update_item(f"research_section_{section_id_str}", f"🔍 Researching section {i+1}/{num_sections}: {section_plan.title}...", is_done=False)
+                
+                retry_count = 0
+                max_retries = app_config.RESEARCH_MAX_RETRIES
+                section_researched = False
+                
+                while retry_count <= max_retries and not section_researched:
+                    try:
+                        # Use the section-specific agent for single section research
+                        result = await Runner.run(
+                            section_research_agent, 
+                            input=section_plan.model_dump_json(),
+                            context=self.config, 
+                            max_turns=15  # Focused turns for single section
+                        )
+                        section_note = result.final_output_as(SectionResearchNotes)
+                        
+                        if section_note:
+                            all_section_notes.append(section_note)
+                            section_researched = True
+                            
+                            if section_note.findings:
+                                sections_with_findings += 1
+                                self.printer.update_item(f"research_section_{section_id_str}", f"✅ Section {i+1}: Found {len(section_note.findings)} sources", is_done=True, hide_checkmark=True)
+                            else:
+                                sections_without_findings += 1
+                                self.printer.update_item(f"research_section_{section_id_str}", f"⚠️ Section {i+1}: No findings (no queries or search failed)", is_done=True, hide_checkmark=True)
+                        else:
+                            raise ValueError("No research notes returned for section")
+                            
+                    except Exception as e:
+                        retry_count += 1
+                        if retry_count <= max_retries:
+                            self.printer.update_item(f"research_section_{section_id_str}", f"🔄 Section {i+1}: Retry {retry_count}/{max_retries} after error", is_done=False)
+                        else:
+                            # Final failure - handle individual section failure
+                            sections_without_findings += 1
+                            failed_sections.append(section_id_str)
+                            self.printer.update_item(f"research_section_{section_id_str}", f"❌ Section {i+1}: Failed after {max_retries} retries", is_done=True, hide_checkmark=True)
+                            
+                            # Create empty notes for failed section
+                            empty_note = SectionResearchNotes(
+                                section_id=section_id_str,
+                                findings=[],
+                                summary=f"Research failed after {max_retries} retries: {str(e)[:100]}"
+                            )
+                            all_section_notes.append(empty_note)
+                            section_researched = True  # Move to next section
+            
+            # Create the final ResearchNotes object
+            try:
+                final_research_notes = ResearchNotes(notes_by_section=all_section_notes)
+                
+                # Save the research notes
+                self.data_manager.save_data(self.title_slug, phase_name, final_research_notes)
+                
+                # Summary message
+                self.printer.update_item(
+                    phase_name,
+                    f"✅ Research complete - {len(all_section_notes)} sections processed, {sections_with_findings} with findings, {sections_without_findings} without findings",
+                    is_done=True,
+                )
+                
+                if failed_sections:
+                    self.printer.update_item("research_failures", f"⚠️ Failed sections: {', '.join(failed_sections)}", is_done=True, hide_checkmark=True)
+                
+                return final_research_notes
+                
+            except Exception as e:
+                self.printer.update_item(phase_name, f"❌ Research compilation failed: {str(e)}", is_done=True)
+                return None
 
     async def _scrape_web_content(self, original_research_notes: ResearchNotes | None) -> ResearchNotes | None:
         phase_name = "scrape_web_content"

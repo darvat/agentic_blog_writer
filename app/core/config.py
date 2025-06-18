@@ -55,6 +55,10 @@ class Config:
     # API Keys
     FIRECRAWL_API_KEY: Optional[str] = os.getenv("FIRECRAWL_API_KEY")
     
+    # Research Configuration
+    RESEARCH_STRATEGY: str = os.getenv("RESEARCH_STRATEGY", "individual")
+    RESEARCH_MAX_RETRIES: int = int(os.getenv("RESEARCH_MAX_RETRIES", "2"))
+    
     def __init__(self):
         self.validate_config()
 
