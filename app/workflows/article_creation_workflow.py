@@ -11,6 +11,7 @@ from app.agents.planner_agent import agent as planner_agent
 from app.agents.research_agent import agent as research_agent
 from app.agents.section_synthesizer_agent import agent as section_synthesizer_agent
 from app.agents.article_synthesizer_agent import agent as article_synthesizer_agent
+from app.agents.research_recovery_agent import agent as research_recovery_agent
 from app.models.article_schemas import SectionPlans, ResearchNotes, SythesizedArticle, SythesizedSection, SectionPlanWithResearch, FinalArticle, FinalArticleWithGemini, SectionResearchNotes
 from app.core.printer import Printer
 from app.core.console_config import console
@@ -226,13 +227,14 @@ class ArticleCreationWorkflow:
                 retry_count = 0
                 max_retries = app_config.RESEARCH_MAX_RETRIES
                 section_researched = False
+                current_section_plan = section_plan
                 
                 while retry_count <= max_retries and not section_researched:
                     try:
                         # Use the section-specific agent for single section research
                         result = await Runner.run(
                             section_research_agent, 
-                            input=section_plan.model_dump_json(),
+                            input=current_section_plan.model_dump_json(),
                             context=self.config, 
                             max_turns=15  # Focused turns for single section
                         )
@@ -254,18 +256,28 @@ class ArticleCreationWorkflow:
                     except Exception as e:
                         retry_count += 1
                         if retry_count <= max_retries:
-                            self.printer.update_item(f"research_section_{section_id_str}", f"🔄 Section {i+1}: Retry {retry_count}/{max_retries} after error", is_done=False)
+                            # Try research recovery before final retry
+                            if retry_count == max_retries:
+                                self.printer.update_item(f"research_section_{section_id_str}", f"🛠️ Section {i+1}: Attempting research recovery...", is_done=False)
+                                current_section_plan = await self._attempt_research_recovery(current_section_plan, str(e))
+                                if current_section_plan:
+                                    self.printer.update_item(f"research_section_{section_id_str}", f"🔄 Section {i+1}: Final retry with improved queries", is_done=False)
+                                else:
+                                    # Recovery failed, proceed to final failure
+                                    break
+                            else:
+                                self.printer.update_item(f"research_section_{section_id_str}", f"🔄 Section {i+1}: Retry {retry_count}/{max_retries} after error", is_done=False)
                         else:
                             # Final failure - handle individual section failure
                             sections_without_findings += 1
                             failed_sections.append(section_id_str)
-                            self.printer.update_item(f"research_section_{section_id_str}", f"❌ Section {i+1}: Failed after {max_retries} retries", is_done=True, hide_checkmark=True)
+                            self.printer.update_item(f"research_section_{section_id_str}", f"❌ Section {i+1}: Failed after {max_retries} retries and recovery attempt", is_done=True, hide_checkmark=True)
                             
                             # Create empty notes for failed section
                             empty_note = SectionResearchNotes(
                                 section_id=section_id_str,
                                 findings=[],
-                                summary=f"Research failed after {max_retries} retries: {str(e)[:100]}"
+                                summary=f"Research failed after {max_retries} retries and recovery attempt: {str(e)[:100]}"
                             )
                             all_section_notes.append(empty_note)
                             section_researched = True  # Move to next section
@@ -512,6 +524,72 @@ class ArticleCreationWorkflow:
 
         except Exception as e:
             self.printer.update_item(phase_name, f"❌ Gemini enhancement failed: {str(e)}", is_done=True)
+            return None
+
+    async def _attempt_research_recovery(self, failed_section_plan: any, failure_reason: str) -> any:
+        """
+        Attempt to recover from failed research by analyzing the section plan and generating improved queries.
+        
+        Args:
+            failed_section_plan: The section plan that failed research
+            failure_reason: The error message explaining why research failed
+            
+        Returns:
+            Improved section plan with new queries, or None if recovery fails
+        """
+        try:
+            # Prepare input for recovery agent
+            recovery_input = {
+                "section_id": failed_section_plan.section_id,
+                "title": failed_section_plan.title,
+                "key_points": failed_section_plan.key_points,
+                "research_queries": getattr(failed_section_plan, 'research_queries', None),
+                "failure_reason": failure_reason
+            }
+            
+            # Run recovery agent
+            result = await Runner.run(
+                research_recovery_agent,
+                input=json.dumps(recovery_input, indent=2),
+                context=self.config,
+                max_turns=5  # Quick recovery process
+            )
+            
+            # Get improved section plan
+            from app.agents.research_recovery_agent import ImprovedSectionPlan
+            improved_plan = result.final_output_as(ImprovedSectionPlan)
+            
+            if improved_plan and improved_plan.research_queries:
+                # Convert back to original SectionPlan format
+                from app.models.article_schemas import SectionPlan
+                recovered_plan = SectionPlan(
+                    section_id=improved_plan.section_id,
+                    title=improved_plan.title,
+                    key_points=improved_plan.key_points,
+                    research_queries=improved_plan.research_queries
+                )
+                
+                # Log the recovery attempt
+                section_id_str = str(failed_section_plan.section_id)
+                self.printer.update_item(
+                    f"recovery_{section_id_str}", 
+                    f"🔧 Recovery: Generated {len(improved_plan.research_queries)} new queries - {improved_plan.improvement_rationale[:100]}...", 
+                    is_done=True, 
+                    hide_checkmark=True
+                )
+                
+                return recovered_plan
+            else:
+                return None
+                
+        except Exception as e:
+            section_id_str = str(failed_section_plan.section_id)
+            self.printer.update_item(
+                f"recovery_failed_{section_id_str}", 
+                f"❌ Recovery failed: {str(e)[:100]}", 
+                is_done=True, 
+                hide_checkmark=True
+            )
             return None
 
 

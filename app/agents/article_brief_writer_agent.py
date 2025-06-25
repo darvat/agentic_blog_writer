@@ -14,7 +14,7 @@ agent = Agent(
     You are responsible for writing the article brief based on the section plans.
     You must return a article brief.    
     """),
-    model=config.SMALL_FAST_MODEL,
+    model=config.SMALL_REASONING_MODEL,
     output_type=ArticleBrief,
     hooks=QuietAgentHooks(),
 )

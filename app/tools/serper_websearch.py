@@ -43,7 +43,7 @@ async def perform_serper_web_search(
     g_lang = gl if gl is not None else "us"
     h_lang = hl if hl is not None else "en"
     time_based_search = tbs if tbs is not None else "qdr:y"
-    num = num_results if num_results is not None else 4
+    num = num_results if num_results is not None else 3
 
     url = "https://google.serper.dev/search"
     payload = json.dumps({

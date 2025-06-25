@@ -11,8 +11,8 @@ def generate(openai_article: str, title: str, description: str, article_layout: 
         api_key=config.GEMINI_API_KEY,
     )
 
-    # model = config.GEMINI_FLASH_PRO_MODEL
-    model = config.GEMINI_FLASH_MODEL
+    model = config.GEMINI_FLASH_PRO_MODEL
+    # model = config.GEMINI_FLASH_MODEL
 
     layout_info = f"""
     The original article layout was: 
@@ -27,20 +27,47 @@ def generate(openai_article: str, title: str, description: str, article_layout: 
             role="user",
             parts=[
                 types.Part.from_text(text=dedent(f"""
-                You are an expert content editor and SEO specialist.
-                Your task is to review the article below and improve it.
+                You are an expert content editor and SEO specialist with a critical focus on fact-checking and content enhancement.
+                Your task is to review the article below and significantly improve it while using it as your foundation.
                 The article was originally generated based on the title: "{title}".
                 The article's main goal or description is: "{description}".
                 {layout_info}
 
-                Please perform the following actions:
-                1.  **Enhance and Extend**: Fix grammar, improve style, refine language, and extend the content where possible and relevant. Ensure the tone is engaging and informative. The article should not be reduced in size, only extended or maintained.
-                2.  **SEO Optimization**: Ensure the article is SEO optimized for the title "{title}". Integrate relevant keywords naturally.
-                3.  **Language Consistency**: You must maintain the language from the original_article appended below, e.g.: if the original article is in english you  must also generate and english output.
-                4.  **Markdown Format**: The output must be a perfectly constructed markdown article.
-                5.  **References**: Any references should be listed at the end of the article. Ensure all references are clickable if possible (though this is a text-based output, so format them as markdown links if URLs are present).
-                6.  **Output**: You must only output the enhanced markdown article. Do not include any other introductory or concluding text outside of the article itself.
-                7.  **No references in the content body**: You must not any references to the article body.
+                **CRITICAL REQUIREMENTS:**
+                
+                **USE ORIGINAL ARTICLE AS BASE**: You MUST use the provided original article as your foundation and starting point. Do not ignore or discard the existing content - build upon it, enhance it, and improve it substantially.
+                
+                **MANDATORY ENHANCEMENT**: Enhancement and improvement is ABSOLUTELY REQUIRED. You cannot simply return the original article unchanged. You must:
+                - Significantly expand sections with more detailed, valuable information
+                - Add depth, examples, case studies, and practical insights
+                - Improve clarity, flow, and readability
+                - Enhance technical accuracy and completeness
+                
+                **FACT-CHECKING WITH GOOGLE SEARCH**: This is CRITICAL - You MUST use the Google Search Grounding to:
+                - Verify all factual claims, statistics, and data mentioned in the original article
+                - Cross-check technical information, regulations, and current market conditions
+                - Validate any specific numbers, dates, prices, or technical specifications
+                - Search for the most current and accurate information on the topic
+                - Ensure all claims are backed by reliable, up-to-date sources
+                
+                Please perform the following actions in order:
+                1.  **Fact Verification**: Before making any enhancements, use Google Search to verify key facts, statistics, regulations, and technical details from the original article. Update any outdated or incorrect information.
+                2.  **Enhance and Extend**: Fix grammar, improve style, refine language, and significantly extend the content with verified, valuable information. Ensure the tone is engaging and informative. The article should be substantially improved and extended, never reduced.
+                3.  **SEO Optimization**: Ensure the article is SEO optimized for the title "{title}". Integrate relevant keywords naturally throughout the enhanced content. Use all content-related SEO techniques to make the text more appealing to both humans and search engines:
+                     - Use numbered and bulleted lists for easy scanning
+                     - Add emphasis with bold and italic text for key points
+                     - Include relevant quotes and callout boxes
+                     - Use proper heading hierarchy (H1, H2, H3, etc.)
+                     - Add tables for data comparison when appropriate
+                     - Include actionable tips and step-by-step guides
+                     - Use short paragraphs and white space for readability
+                     - Add relevant internal linking opportunities (mention related topics)
+                     - Create engaging subheadings that include target keywords
+                4.  **Language Consistency**: You must maintain the language from the original_article appended below, e.g.: if the original article is in english you must also generate an english output.
+                5.  **Markdown Format**: The output must be a perfectly constructed markdown article with proper formatting, headers, and structure.
+                6.  **Verified References**: Any references should be listed at the end of the article. Ensure all references are current, accurate, and clickable (format them as markdown links). Prioritize recent, authoritative sources.
+                7.  **Output**: You must only output the enhanced markdown article. Do not include any other introductory or concluding text outside of the article itself.
+                8.  **No inline references**: You must not include any reference citations within the content body - only at the end.
 
                 <original_article>
                 {openai_article}

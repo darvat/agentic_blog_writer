@@ -144,3 +144,5 @@ output/
 
 data/*
 foo.*
+
+docs/diff

@@ -1,0 +1,259 @@
+----
+---- Template
+----
+
+
+Solarpanel installation in Canton [canton], solar installation in Canton [canton], Average irradiation, federal solar subsidy 2025, energy tariffs in Canton [canton] 2025, energy providers in Canton [canton]
+
+
+
+1. [canton]’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton [canton]
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a [canton] PV System
+10. Conclusion - How to make the most out of PV in [canton]
+
+
+----
+---- Aargau
+----
+
+
+
+Enter the article title: Turn Your Aargau Roof into a Solar Income Stream In Aargau
+
+Enter the article description (end with an empty line):
+
+Solarpanel installation in Canton Aargau, solar installation in Canton Aargau, Average irradiation, federal subsidy 2025, energy tariffs in Canton Aargau 2025, energy providers in Canton Aargau
+1. Begin with a vivid spring-morning scene by the Reuss River to illustrate Aargau’s reliable 1,100 kWh/m² annual irradiation and draw readers in.
+2. Lead with a concise TL;DR summarizing Aargau’s strong solar potential, stacked federal and cantonal subsidies, rapid 4–5 year payback, and long-term ROI.
+3. Debunk common sunlight myths by presenting the hard GHI data and explaining how Aargau’s gentle terrain ensures steady year-round yields.
+4. Explain optimal panel orientation and tilt—due south at 30–35°—and showcase tech tweaks like bifacial modules and micro-inverters with concrete efficiency gains.
+5. Break down the federal EIV tiers alongside Aargau’s CHF 700/kWp top-up and storage grants, using a quick-math example for a 10 kWp system.
+6. Contrast local electricity import tariffs (\~29 Rp./kWh) versus export feed-in rates (11–15 Rp./kWh) to illustrate why maximizing self-consumption is financially crucial.
+7. Provide a clear, week-by-week installation roadmap from initial site assessment through permitting, hardware mounting, and final commissioning.
+8. Include a cost-breakdown table (modules, inverters, labor, VAT, subsidies) and calculate net outlay, annual savings, and simple payback for typical homeowners.
+9. Highlight emerging trends—battery storage incentives, energy communities, dynamic tariffs—and explain how they’ll boost self-consumption and community resilience.
+10. Close with a strong call to action urging readers to assess their roof, apply for subsidies now, and join Aargau’s accelerating solar revolution.
+
+Enter the article layout (leave empty for auto-generated layout, end with an empty line):
+
+1. Aargau’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Aargau
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Aargau PV System
+10. Conclusion - How to make the most out of PV in Aargau
+
+Enter the target word count: 2850
+
+
+
+----
+---- Zurich
+----
+
+Solarpanel installation in Canton Zürich, solar installation in Canton Zürich, Average irradiation, federal subsidy, energy tariffs in Canton Zürich, energy providers in Canton Zürich
+
+
+
+1. Zürich’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Zürich
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Zürich PV System
+10. Conclusion - How to make the most out of PV in Zürich
+
+Enter the article title: Zurich’s Solar Rooftop Revolution Explained: Your Guide to Solar Panel Installation in Canton Zurich
+
+Enter the article description (end with an empty line):
+
+Solarpanel installation in Canton Zürich, solar installation in Canton Zürich, Average irradiation, federal subsidy 2025, energy tariffs in Canton Zürich 2025, energy providers in Canton Zürich
+1. Open with a vivid scene—describe flying into Zurich and spotting rooftops transformed by solar panels to hook readers immediately.
+2. Include a brief TL;DR at the top that highlights Zurich’s sunshine levels, subsidy opportunities, and financial upside to orient busy readers.
+3. Debunk the “foggy Switzerland” myth by presenting exact irradiation figures from MeteoSwiss and Meteonorm and comparing them with nearby cities.
+4. Break down the subsidy landscape clearly: outline federal EIV and EVS/GMP grants, cantonal top-ups, and municipal bonuses in numbered sections.
+5. Contrast retail electricity tariffs versus feed-in rates with concrete examples (e.g., Zurich city vs. Wetzikon) to illustrate the payback puzzle.
+6. Provide a step-by-step installation roadmap—from selecting Swissolar-certified installers to securing permits, applying for grants, and commissioning the system.
+7. Add an application timeline “cheat-sheet” with week-by-week milestones to help readers track submissions and avoid missing key deadlines.
+8. Sprinkle in real-world case studies (like the Embraport logistics center) to show both residential and commercial solar successes.
+9. Look ahead by summarizing emerging trends—seasonal hydrogen storage, vehicle-to-grid integration, façade PV, and peer-to-peer energy markets—to give the blog future relevance.
+10. End with a strong call to action urging readers to assess their roof potential, apply for subsidies, and join Zurich’s solar rooftop revolution now.
+
+Enter the article layout (leave empty for auto-generated layout, end with an empty line):
+
+1. Zürich’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Zürich
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Zürich PV System
+10. Conclusion - How to make the most out of PV in Zürich
+
+Enter the target word count: 2800
+
+
+----------
+---------- Bern
+----------
+
+Solar Power in Canton Bern: Shine Brighter, Spend Less
+
+
+----
+
+Solarpanel installation in Canton Bern, solar installation in Canton Bern, Average irradiation, federal solar subsidy 2025, energy tariffs in Canton Bern 2025, energy providers in Canton Bern
+1. Open with a vivid Bernese snapshot that immediately shows solar panels becoming part of everyday city life to hook the reader.
+2. Follow with a concise TL;DR summarising Bern’s extra sunshine, generous incentives, and 10-15 year payback so busy readers see the value up-front.
+3. Lay out the three macro-drivers—climate policy, crashing tech costs, and soaring electricity prices—backed by one or two killer stats each.
+4. Dive into irradiation data, contrasting Mittelland versus Oberland, then give concrete orientation and tilt angles so readers know how to maximise yield.
+5. Quantify the dual wins: tonnes of CO₂ avoided and 40-60 % bill cuts, plus cite the 4-6 % property premium to appeal to both ethics and wallets.
+6. Detail Pronovo’s one-off payment, feed-in tariff, and Bern’s tiered grants, using a real-world cost breakdown (e.g., the Müller family) to make subsidies tangible.
+7. Explain tariff arithmetic clearly, showing why self-consumed kWh is worth double exported power, and add a compact ROI table for 5 kW, 10 kW + battery, and 30 kW cases.
+8. Provide a checklist for vetting installers—certifications, Tier-1 components, itemised quotes—and outline the four-phase timeline from site audit to go-live.
+9. Finish core content with future-proof trends such as energy communities, agrivoltaics, V2G, and dynamic pricing, positioning the reader as ahead of the curve.
+10. Close on a confident call-to-action: invite a free roof assessment and remind homeowners their roof can become a personal power plant and profit centre.
+
+----
+
+1. Bern’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Bern
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Bern PV System
+10. Conclusion - How to make the most out of PV in Bern
+
+
+
+-----
+----- Basel-Landschaft
+-----
+
+Your Free Solar Installation in Basel-Landschaft
+
+Solarpanel installation in Canton Basel-Landschaft, solar installation in Canton Basel-Landschaft, Average irradiation, federal solar subsidy 2025, energy tariffs in Canton Basel-Landschaft 2025, energy providers in Canton Basel-Landschaft
+1. Open with a vivid Basel-Landschaft image—“every roof tile quietly prints money under 1,050 kWh/m² of sun”—to hook curiosity from line one.
+2. Follow immediately with a TL;DR that packs irradiation, CHF 2.5–3.5/Wp installed cost, and an 8–12 year (6 with incentives) payback so skimmers grasp the upside fast.
+3. Paint the solar-resource picture: contrast high-yield June afternoons above 6 kWh/m² with the December dip, then reassure readers that batteries or grid-tie tame seasonality.
+4. Compare roof- and ground-mounted options, flagging Basel-Land’s streamlined “building notification” for rooftops versus tougher Bauamt hurdles for large ground arrays.
+5. Give sizing rules of thumb—5–10 kWp home, 30 kWp office, 100 kWp warehouse—and note that a 7 kWp, 30°-south array can cut grid draws by 70 %.
+6. Break down the CHF 2.70/Wp cost stack and walk readers through a 5 kWp sample budget that falls from CHF 13.5 k to \~CHF 9.5 k after the cantonal grant and VAT reclaim.
+7. Build trust with social proof: spotlight installers (allsol, Axova, EBL, IWB) and marquee projects like the 50 kWp Läufelfingen logistics roof or the 10 kWp Muttenz home.
+8. Dedicate a section to incentives—explain the 20-year KEV feed-in tariff, the CHF 0.15–0.20/Wp cantonal grant, and the one-year 100 % tax write-off.
+9. Clarify tariff math: at 22 Rp/kWh retail vs 4.6 Rp minimum feed-in, self-consumption is king, and joining a ZEV slashes network fees for multi-unit sites.
+10. Close by weighing ownership, lease, and PPA models, lay out the 7-step roadmap from roof audit to app monitoring, and end with a bold CTA for a free roof assessment—framing the roof as a silent cash printer the reader can activate today.
+
+
+1. Basel-Landschaft’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Basel-Landschaft
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Basel-Landschaft PV System
+10. Conclusion - How to make the most out of PV in Basel-Landschaft
+
+
+<div style="background:#f6f9ff;padding:24px;border-radius:8px;margin:32px 0;text-align:center;">
+  <h2 style="margin:0 0 12px 0;">Ready to see your roof’s solar income potential?</h2>
+
+  <p style="margin:0 0 20px 0;">
+    Get a free, no-obligation assessment.
+  </p>
+
+  <a href="https://solergy.ch/aitest/roof-owner-form/?source=bl"
+     style="display:inline-block;background:#ffd966;padding:12px 24px;border-radius:6px;font-weight:600;text-decoration:none;color:inherit;" target="_blank">
+     Get&nbsp;My&nbsp;Free&nbsp;Roof&nbsp;Assessment
+  </a>
+</div>
+
+
+-----
+----- Schwyz
+-----
+
+Harnessing Sunshine in Schwyz: Your Solar Playbook
+
+
+Solarpanel installation in Canton Schwyz, solar installation in Canton Schwyz, Average irradiation, federal solar subsidy 2025, energy tariffs in Canton Schwyz 2025, energy providers in Canton Schwyz
+1. Open with a vivid Schwyz tableau—sun-washed chalets above Lake Lucerne where PV arrays glint like new Alpine snow—to seize attention instantly.
+2. Drop a punchy TL;DR citing 1,800-2,000 sun-hours, ≈1,300 kWh/m² optimal yield, and sub-10-year payback with Pronovo + Gebäudeprogramm so busy readers “get it” in 30 seconds.
+3. Map the two micro-zones (valley vs. 1 500 m slopes), then translate irradiation into a 5 kW→4 750 kWh example that powers 25 000 km of EV driving to ground the numbers.
+4. Explain seasonal swings—7 % of yield in January vs. 13 % in July—and prescribe a 30° tilt, bifacial modules, and 5 kWh storage to ride out winter dips.
+5. Decode subsidies: one-off KLEIV/GREIV, floating PMF for ≥150 kW, plus Gebäudeprogramm bonuses for façade or heritage installs—include the 120-day and auction deadlines so readers don’t miss out.
+6. Clarify tariff math: 29 Rp/kWh retail vs. \~9 Rp feed-in means self-consumed power is triple value; advise smart-home timers, EV V2H charging, and battery arbitrage.
+7. Insert a concise payback table (30 %, 60 %, 100 % self-use) showing 12-14 yr ⇢ 8-10 yr ⇢ 9-11 yr to prove the business case at a glance.
+8. Give a four-step installer vet (Swissolar badge, site visits, apples-to-apples proposals, milestone-linked payments) and name-drop ebs, Smart Solar Systems, SolisTec, 3S, tritec, and EWS for local colour.
+9. Myth-bust alpine worries—snow slide-off, hail testing, resale premium—to pre-empt objections and keep sceptics reading.
+10. Close with a future-ready vision: batteries, V2H, heat-pump synergy, AI dashboards—then a bold CTA for a free roof scan, framing the reader’s chalet roof as an untapped Alpine goldmine.
+
+
+
+
+
+1. Schwyz’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Schwyz
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Schwyz PV System
+10. Conclusion - How to make the most out of PV in Schwyz
+
+-----
+----- Lucerne
+-----
+
+Going Solar in Canton Lucerne: Subsidies, Savings & Success
+
+
+Solarpanel installation in Canton Lucerne, solar installation in Canton Lucerne, Average irradiation, federal solar subsidy 2025, energy tariffs in Canton Lucerne 2025, energy providers in Canton Lucerne
+1. Start with a striking Lucerne tableau—historic tiled roofs doubling as 2025-era power plants—to hook readers and frame the “solar boom” tipping point.
+2. Lead straight into a TL;DR packing the essentials: 1 100–1 200 kWh/m² sun, up to 63 % subsidies (federal + cantonal), < 8-year payback, and vZEV for bonus revenue.
+3. Lay out the three tailwinds—60 % module price drop since 2018, streamlined 2024 Electricity Act, and energy-price hedging—each backed by one punchy data point.
+4. Map irradiation: 200 kWh/m² summer peaks vs < 50 kWh/m² winter, cite the 500 MWp untapped rooftop GIS figure, and advise 35° south-by-south-west tilt or east-west bifacial split for flatter output.
+5. Demystify incentives: KLEIV/GREIV and sliding premium ≥150 kW, then Lucerne’s CHF 400 /kW rooftop bonus (200 for ground) plus EV-charger and agri extras—include “upload to Pronovo before signing” and cantonal mirror filing.
+6. Drop the headline math: 10 kW system falls from CHF 12 k to CHF 4.4 k net, yields 9 500 kWh, earns/saves ≈ CHF 1 919 /yr, so \~2.3-year simple payback—even five years worst-case.
+7. Stress self-consumption economics: 37 Rp/kWh avoided vs 9 Rp feed-in; recommend 10 kWh Li-Fe-PO₄ battery, smart EV scheduling, and vZEV peer-sharing to push self-use above 60 %.
+8. Outline the grid path: 2–5 day pre-check, 1–2 week TAG, 1–4 week install, 1-day commissioning—remind readers to pre-order smart meters to dodge summer bottlenecks.
+9. Give a four-point installer vet (Swissolar badge, similar-roof portfolio, live monitoring, 48 h service) and name-drop Solar Sense and SeetalSolar as proven locals.
+10. Close with future horizons—sub-CHF 600/kWh batteries, agrivoltaics, V2G, floating Lake-Lucerne PV—and a bold CTA to join the rooftop revolution before the subsidies queue fills.
+
+
+
+
+
+1. Lucerne’s Solar Potential: More Sun Than You Think
+2. PV Installation Practices: Roof, Ground & Permits
+3. System Sizing & Economics: kWp That Fit Your Roof
+4. Cost Breakdown & Real-World Payback in Canton Lucerne
+5. The Local Solar Market: Installers & Flagship Projects
+6. Subsidies & Incentives: Turning Sunshine Into Swiss Francs
+7. Tariffs, Feed-in & Net-Metering Rules
+8. Contracting Models: Own It, Lease It or Sign a PPA
+9. Your 7-Step Roadmap to a Lucerne PV System
+10. Conclusion - How to make the most out of PV in Lucerne

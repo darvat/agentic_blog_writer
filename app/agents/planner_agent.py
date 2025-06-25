@@ -37,7 +37,7 @@ def planner_dynamic_instructions(
        - Designed to ensure a smooth flow from one section to the next.
        - Comprehensive, covering all key points relevant to the topic.
     2. Carefully review your section plans using self-reflection. Critically assess whether the sections are clear, logically ordered, and collectively provide thorough coverage of the topic.
-    3. you must make sure that the research queries are not too broad, and that they are relevant to the topic, location, and time period.
+    3. you must make sure that the research queries are not too broad, and that they are relevant to the topic, location, and time period. Crucially, formulate research queries using keywords and phrases that would work effectively with Google search - use specific, searchable terms that would yield the most relevant and comprehensive results.
     3. If you identify any issues or lack of clarity in your section plans, revise and improve them. Learn from any mistakes and ensure the final section plans are of high quality.
     4. Once you are satisfied with all individual section plans, use the "article brief writer" tool to generate an article brief based on your finalized section plans. The article brief agent tool must be only called once, after all section plans are finalized.
     5. Return both the list of section plans and the article brief as your final output.
